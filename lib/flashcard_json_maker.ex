@@ -23,6 +23,38 @@ defmodule FlashcardJsonMaker do
       |> Stream.map(&String.split(&1, ","))
       |> Enum.each(&IO.puts(&1))
   end
+
+# recurse with counter to track index position in csv
+# when counter is at final index end recurse
+# object construction method uses index to place value in obj
+# this requires extra object passed in as well
+
+# just got compile through, need to test format_csv_row function
+  def format_csv_row_as_json_object(csv_row) do
+    flashcard = empty_flashcard_json()
+    format_row(csv_row, flashcard, 0)
+  end
+
+  def format_row([], flashcard, _), do: flashcard
+
+  def format_row([current | remaining], flashcard, index) do
+    case index do
+      0 ->
+        Map.get_and_update!(flashcard, "kanji", &({&1, current}))
+      1 -> 
+        Map.get_and_update!(flashcard, "fronttext", &({&1, current}))
+      2 ->
+        Map.get_and_update!(flashcard, "backtext", &({&1, current}))
+      3 ->
+        Map.get_and_update!(flashcard, "source", &({&1, current}))
+      4 ->
+        Map.get_and_update!(flashcard, "page", &({&1, current}))
+    end
+
+    format_row(remaining, flashcard, index + 1)
+  end
+
+  defp empty_flashcard_json, do: %{"kanji" => nil, "fronttext" => nil, "backtext" => nil, "source" => nil, "page" => nil}
   
   def read_csv_source do 
     File.stream!("./data/new_flashcards.csv") 
