@@ -1,5 +1,6 @@
 defmodule FlashcardJsonMaker do
   import File
+  @keys {"kanji", "fronttext", "backtext", "source", "page"}
   @moduledoc """
   Documentation for `FlashcardJsonMaker`.
   """
@@ -22,7 +23,7 @@ defmodule FlashcardJsonMaker do
       |> Stream.map(&String.trim(&1))
       |> Stream.map(&String.split(&1, ","))
       |> Stream.map(&format_csv_row_as_json_object(&1))
-      |> Enum.each(&IO.inspect(&1))
+      |> Enum.each(&IO.puts(&1))
   end
 
 # recurse with counter to track index position in csv
@@ -36,36 +37,16 @@ defmodule FlashcardJsonMaker do
     format_row(csv_row, flashcard, 0)
   end
 
-  def format_row([], flashcard, _), do: flashcard
+  def format_row([], flashcard, _), do: map_to_json(flashcard)
+
+  def map_to_json(map) do
+    "{\n  \"kanji\": #{map["kanji"]},\n  \"fronttext\": \"#{map["fronttext"]}\",\n  \"backtext\": \"#{map["backtext"]}\",\n  \"source\": \"#{map["source"]}\",\n  \"page\": #{map["page"]}\n}"
+  end
 
   def format_row([current | remaining], flashcard, index) do
-  # IO.inspect(index)
-  # IO.inspect(current)
-  # create a tuple to hold the respective keys with indexes, recurse will grab from that to select 
-  # proper key
-  # case for when index is 0, convert value to boolean
-
-    keys = {"kanji", "fronttext", "backtext", "source", "page"}
-    updated_flashcard_map = Map.put(flashcard, elem(keys, index), current)
-
-    # IO.puts("flashcard after case")
-    # IO.inspect(updated_flashcard_map)
+    updated_flashcard_map = Map.put(flashcard, elem(@keys, index), current)
 
     format_row(remaining, updated_flashcard_map, index + 1)
-    # case index do
-    #   0 ->
-    #     Map.put(flashcard, "kanji", flashcard)
-    #   1 -> 
-    #     Map.get_and_update!(flashcard, "fronttext", &({&1, current}))
-    #   2 ->
-    #     Map.get_and_update!(flashcard, "backtext", &({&1, current}))
-    #   3 ->
-    #     Map.get_and_update!(flashcard, "source", &({&1, current}))
-    #   4 ->
-    #     Map.get_and_update!(flashcard, "page", &({&1, current}))
-    # end
-
-    # format_row(remaining, flashcard, index + 1)
   end
 
   defp empty_flashcard_json, do: %{"kanji" => nil, "fronttext" => nil, "backtext" => nil, "source" => nil, "page" => nil}
