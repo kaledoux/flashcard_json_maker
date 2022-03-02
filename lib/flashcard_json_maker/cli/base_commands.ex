@@ -22,5 +22,4 @@ defmodule FlashcardJsonMaker.CLI.BaseCommands do
     get_file_name(file_type)
       |> verify_file_name(file_type) 
   end
-
 end
