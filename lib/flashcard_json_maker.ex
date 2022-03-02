@@ -12,6 +12,19 @@ defmodule FlashcardJsonMaker do
   formats the parsed list into a json formatted string
   ... should append each item to a target json file"
 
+  def orchestrator do
+    temp_path = CLI.get_verified_file_name(:temp)
+    select_and_process_json(temp_path)
+    select_and_process_csv(temp_path)
+    polish_temp_file(temp_path)
+  end
+
+  def polish_temp_file(temp_path) do
+    File.read!(temp_path)
+      |> remove_comma_and_add_bracket
+      |> write_to_temp_file(temp_path)
+  end
+
   def prep_json(file_name) do
     File.read!(file_name)
       |> remove_bracket_and_add_comma
@@ -21,30 +34,30 @@ defmodule FlashcardJsonMaker do
     String.slice(json, 0, String.length(json) - 2) <> ","
   end
 
-  def select_and_process_json() do
+  def remove_comma_and_add_bracket(json) do
+    String.slice(json, 0, String.length(json) - 1) <> "\n]"
+  end
+
+  def select_and_process_json(temp_file_name) do
     CLI.get_verified_file_name(:json) 
       |> prep_json
-      |> write_to_temp_file
+      |> write_to_temp_file(temp_file_name)
   end
 
-  def write_to_temp_file(content) do
-    File.write("./temp.json", content)
+  def write_to_temp_file(content, temp_path) do
+    File.write(temp_path, content)
   end
 
-  def csv_to_json do
-    select_and_process_json()
-    select_and_process_csv()
-  end
 # this module will orchestrate the csv and json modules
-  def select_and_process_csv() do
+  def select_and_process_csv(temp_path) do
     CLI.get_verified_file_name(:csv)
-      |> process_csv
+      |> process_csv(temp_path)
   end
 
-  def process_csv(file_path) do
-    {:ok, temp_json_file} = File.open("./temp.json", [:append, :utf8])
+  def process_csv(csv_path, temp_path) do
+    {:ok, temp_json_file} = File.open(temp_path, [:append, :utf8])
 
-      read_csv_source(file_path)
+    read_csv_source(csv_path)
       |> Stream.map(&String.trim(&1))
       |> Stream.map(&String.split(&1, ","))
       |> Stream.map(&format_csv_row_as_json_string(&1))

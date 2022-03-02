@@ -5,12 +5,17 @@ defmodule FlashcardJsonMaker.CLI.BaseCommands do
 
   def get_file_name(:json) do
     clear_screen()
-    String.trim(Shell.prompt("Please enter the location of the JSON source file\n(We'll be adding new entries to this file):\n"))
+    String.trim(Shell.prompt("Please enter the location of the JSON source file.\n(We'll be adding new entries to this file):\n"))
   end
 
   def get_file_name(:csv) do
     clear_screen()
-    String.trim(Shell.prompt("Please enter the location of the CSV source file\n(We'll be creating new entries from this file):\n"))
+    String.trim(Shell.prompt("Please enter the location of the CSV source file.\n(We'll be creating new entries from this file):\n"))
+  end
+
+  def get_file_name(:temp) do
+    clear_screen()
+    String.trim(Shell.prompt("Please enter the location of the new JSON file to create.\n(The source json and csv will be combined in this location):\n"))
   end
 
   def verify_file_name(file_name, file_type) do
@@ -22,4 +27,5 @@ defmodule FlashcardJsonMaker.CLI.BaseCommands do
     get_file_name(file_type)
       |> verify_file_name(file_type) 
   end
+
 end
