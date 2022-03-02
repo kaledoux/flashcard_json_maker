@@ -1,0 +1,21 @@
+[
+  {
+    "kanji": true,
+    "fronttext": "今日",
+    "backtext": "Today",
+    "source": "book1"
+  },
+  {
+    "kanji": false,
+    "fronttext": "した",
+    "backtext": "under",
+    "source": "book1"
+  },
+  {
+    "kanji": false,
+    "fronttext": "どこか",
+    "backtext": "somewhere, anywhere",
+    "source": "book2",
+    "page": 3
+  }
+]

@@ -10,14 +10,17 @@ defmodule FlashcardJsonMaker.CsvProcessor do
   def process_csv(csv_path, temp_path) do
     {:ok, temp_json_file} = File.open(temp_path, [:append, :utf8])
 
-    read_csv_source(csv_path)
+    File.stream!(csv_path)
       |> Stream.map(&String.trim(&1))
       |> Stream.map(&String.split(&1, ","))
       |> Stream.map(&format_csv_row_as_json_string(&1))
-      # |> Enum.each(&IO.puts(&1))
       |> Enum.each(&IO.write(temp_json_file, &1))
 
   end
+
+@doc """
+Recurse for each list item of split csv row, adding as value to map based on the associated indexed key in keys
+"""
 
   def format_csv_row_as_json_string(csv_row) do
     format_row(csv_row, %{}, 0)
@@ -31,13 +34,12 @@ defmodule FlashcardJsonMaker.CsvProcessor do
     format_row(remaining, updated_flashcard_map, index + 1)
   end
 
+@doc """
+Format json strings in matching order to source
+"""
   def map_to_json(%{"page" => page_value} = map) when page_value == "", do: "\n\t{\n  \t\"kanji\": #{map["kanji"]},\n  \t\"fronttext\": \"#{map["fronttext"]}\",\n  \t\"backtext\": \"#{map["backtext"]}\",\n  \t\"source\": \"#{map["source"]}\"\n\t},"
 
   def map_to_json(map), do: "\n\t{\n  \t\"kanji\": #{map["kanji"]},\n  \t\"fronttext\": \"#{map["fronttext"]}\",\n  \t\"backtext\": \"#{map["backtext"]}\",\n  \t\"source\": \"#{map["source"]}\",\n  \t\"page\": #{map["page"]}\n\t},"
 
-  def read_csv_source(file_path) do 
-    File.stream!(file_path) 
-  end
-  
   def keys, do: @keys
 end
