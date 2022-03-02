@@ -1,5 +1,6 @@
 defmodule FlashcardJsonMaker do
   alias Mix.Shell.IO, as: Shell
+  alias FlashcardJsonMaker.CLI.BaseCommands, as: CLI
   @keys {"kanji", "fronttext", "backtext", "source", "page"}
 
   @moduledoc """
@@ -11,31 +12,8 @@ defmodule FlashcardJsonMaker do
   takes each line and parses by csv
   formats the parsed list into a json formatted string
   ... should append each item to a target json file"
-
-  def clear_screen(), do: Shell.cmd("clear")
-
-  def get_file_name(:json) do
-    clear_screen()
-    String.trim(Shell.prompt("Please enter the location of the JSON source file\n(We'll be adding new entries to this file):\n"))
-  end
-
-  def get_file_name(:csv) do
-    clear_screen()
-    String.trim(Shell.prompt("Please enter the location of the CSV source file\n(We'll be creating new entries from this file):\n"))
-  end
-
-  def verify_file_name(file_name, file_type) do
-    Shell.cmd("clear")
-    if Shell.yes?("==> #{file_name} <== selected.\n Proceed? Y/n\n"), do: "#{file_name}", else: get_file_name(file_type)
-  end
-
-  def get_verified_file_name(file_type) do
-    get_file_name(file_type)
-      |> verify_file_name(file_type) 
-  end
-
   def select_and_process_csv do
-    get_verified_file_name(:csv)
+    CLI.get_verified_file_name(:csv)
       |> process_csv
   end
 
