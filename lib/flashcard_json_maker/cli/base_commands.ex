@@ -5,7 +5,7 @@ defmodule FlashcardJsonMaker.CLI.BaseCommands do
 
   def get_file_name(:json) do
     clear_screen()
-    String.trim(Shell.prompt("Please enter the location of the JSON source file.\n(We'll be adding new entries to this file):\n"))
+    String.trim(Shell.prompt("Please enter the location of the JSON source file.\n(We'll be using this file to add to in our temp file):\n"))
   end
 
   def get_file_name(:csv) do
