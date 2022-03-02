@@ -8,8 +8,6 @@ defmodule FlashcardJsonMaker do
   """
 
 
-# add testing for each module (unit tests)
-# create mix start command to run program
 # update documentation for how to use
 
 @doc "transformation pipeline that does the following:
