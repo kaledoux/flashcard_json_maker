@@ -20,5 +20,10 @@ defmodule FlashcardJsonMaker do
     JSON.select_and_process_json(temp_path)
     CSV.select_and_process_csv(temp_path)
     JSON.polish_temp_file(temp_path)
+      |> confirm_temp_write(temp_path)
+  end
+
+  def confirm_temp_write(status, file_path) when status == :ok do
+    CLI.info("New lines successfully written to #{file_path}")
   end
 end

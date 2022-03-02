@@ -3,6 +3,8 @@ defmodule FlashcardJsonMaker.CLI.BaseCommands do
 
   def clear_screen(), do: Shell.cmd("clear")
 
+  def info(text), do: Shell.info(text)
+
   def get_file_name(:json) do
     clear_screen()
     String.trim(Shell.prompt("Please enter the location of the JSON source file.\n(We'll be using this file to add to in our temp file):\n"))
