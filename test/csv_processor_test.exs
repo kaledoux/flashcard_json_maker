@@ -30,7 +30,6 @@ defmodule FlashcardJsonMaker.CsvProcessorTest do
   end
 
   test "map_to_json returns properly formatted json string w/o page" do
-    IO.puts map_to_json(@sample_flashcard_no_page)
     assert map_to_json(@sample_flashcard_no_page) == @sample_flashcard_json_no_page
   end
 
