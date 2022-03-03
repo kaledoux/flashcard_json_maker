@@ -17,7 +17,23 @@ The program works on the basis of a source JSON file, a source CSV file, and new
 
 The program will ask you to provide a new file location for the "temp" file, then the source JSON file location, followed by the source CSV location. 
 
-Bear in mind **the locations you provide are relative to the directory in which you are running the program** so take care to reference properly. 
+Remember **the locations you provide are relative to the directory in which you are running the program** so take care to reference properly. 
+
+### CSV Formatting
+The program assumes that data in the CSV will be formatted in the following pattern:
+```
+kanji,fronttext,backtext,source,page(optional)
+```
+So an example might look like so:
+```
+true,明日,tomorrow,book1,
+true,上,over,book1,
+false,どこも,nowhere or everywhere,book2,3
+```
+
+Note that the `page` attribute does not need to be present, but the comma that delineates the `source` and `page` *is required*.
+
+Bear in mind that each row must be separated by a newline (`\n`).
 
 ## Invalid File Location
 The program will crash out if you specify a JSON or CSV source location that does not exist. 
