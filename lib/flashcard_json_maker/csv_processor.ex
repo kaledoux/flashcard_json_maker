@@ -37,9 +37,9 @@ Recurse for each list item of split csv row, adding as value to map based on the
 @doc """
 Format json strings in matching order to source
 """
-  def map_to_json(%{"page" => page_value} = map) when page_value == "", do: "\n\t{\n  \t\"kanji\": #{map["kanji"]},\n  \t\"fronttext\": \"#{map["fronttext"]}\",\n  \t\"backtext\": \"#{map["backtext"]}\",\n  \t\"source\": \"#{map["source"]}\"\n\t},"
+  def map_to_json(%{"page" => page_value} = map) when page_value == "", do: "\n\t\t{\n  \t\t\"kanji\": #{map["kanji"]},\n  \t\t\"fronttext\": \"#{map["fronttext"]}\",\n  \t\t\"backtext\": \"#{map["backtext"]}\",\n  \t\t\"source\": \"#{map["source"]}\"\n\t\t},"
 
-  def map_to_json(map), do: "\n\t{\n  \t\"kanji\": #{map["kanji"]},\n  \t\"fronttext\": \"#{map["fronttext"]}\",\n  \t\"backtext\": \"#{map["backtext"]}\",\n  \t\"source\": \"#{map["source"]}\",\n  \t\"page\": #{map["page"]}\n\t},"
+  def map_to_json(map), do: "\n\t\t{\n  \t\t\"kanji\": #{map["kanji"]},\n  \t\t\"fronttext\": \"#{map["fronttext"]}\",\n  \t\t\"backtext\": \"#{map["backtext"]}\",\n  \t\t\"source\": \"#{map["source"]}\",\n  \t\t\"page\": #{map["page"]}\n\t\t},"
 
   def keys, do: @keys
 end

@@ -6,8 +6,8 @@ defmodule FlashcardJsonMaker.CsvProcessorTest do
   @sample_flashcard_no_page %{"kanji" => true, "fronttext" => "front text", "backtext" => "back text", "source" => "book1", "page" => ""}
   @sample_flashcard_list ["true", "front text", "back text", "book1", 1]
   @sample_flashcard_list_no_page ["true", "front text", "back text", "book1", ""]
-  @sample_flashcard_json "\n\t{\n  \t\"kanji\": true,\n  \t\"fronttext\": \"front text\",\n  \t\"backtext\": \"back text\",\n  \t\"source\": \"book1\",\n  \t\"page\": 1\n\t},"
-  @sample_flashcard_json_no_page "\n\t{\n  \t\"kanji\": true,\n  \t\"fronttext\": \"front text\",\n  \t\"backtext\": \"back text\",\n  \t\"source\": \"book1\"\n\t},"
+  @sample_flashcard_json "\n\t\t{\n  \t\t\"kanji\": true,\n  \t\t\"fronttext\": \"front text\",\n  \t\t\"backtext\": \"back text\",\n  \t\t\"source\": \"book1\",\n  \t\t\"page\": 1\n\t\t},"
+  @sample_flashcard_json_no_page "\n\t\t{\n  \t\t\"kanji\": true,\n  \t\t\"fronttext\": \"front text\",\n  \t\t\"backtext\": \"back text\",\n  \t\t\"source\": \"book1\"\n\t\t},"
 
   test "keys module attribute contains proper keys" do
     assert elem(keys(), 0) == "kanji"
