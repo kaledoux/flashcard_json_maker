@@ -1,5 +1,6 @@
 defmodule FlashcardJsonMaker.JsonProcessor do
   alias FlashcardJsonMaker.CLI.BaseCommands, as: CLI
+  import Jason.Formatter
 
   def select_and_process_json(temp_file_name) do
     CLI.get_verified_file_name(:json) 
@@ -10,6 +11,7 @@ defmodule FlashcardJsonMaker.JsonProcessor do
   def polish_temp_file(temp_path) do
     File.read!(temp_path)
       |> remove_comma_and_add_bracket
+      |> pretty_print
       |> write_to_temp_file(temp_path)
   end
 
